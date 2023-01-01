@@ -1,11 +1,15 @@
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { typeDefs } from "./schema.js";
-import mysql from "mysql2";
+
 import * as dotenv from "dotenv";
 dotenv.config();
 
-const connection = mysql.createConnection({
+import mysql from "mysql2/promise";
+import { User } from "./user.js";
+import { DbUser } from "./db-user.js";
+
+const connection = await mysql.createConnection({
   host: process.env.SAMPLE_POSTS_DATABASE_HOST,
   user: process.env.SAMPLE_POSTS_DATABASE_USERNAME,
   password: process.env.SAMPLE_POSTS_DATABASE_USERNAME,
@@ -13,7 +17,12 @@ const connection = mysql.createConnection({
 });
 
 const resolvers = {
-  Query: {},
+  Query: {
+    async users(): Promise<User[]> {
+      const [rows] = await connection.query<DbUser[]>('SELECT * FROM `users`');
+      return rows;
+    }
+  },
   Mutation: {},
 };
 
