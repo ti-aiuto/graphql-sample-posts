@@ -20,7 +20,8 @@
   "homepage": "https://github.com/ti-aiuto/graphql-try#readme",
   "dependencies": {
     "@apollo/server": "^4.3.0",
-    "graphql": "^16.6.0"
+    "graphql": "^16.6.0",
+    "mysql2": "^2.3.3"
   },
   "devDependencies": {
     "@types/node": "^18.11.18",
