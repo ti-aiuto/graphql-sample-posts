@@ -1,0 +1,19 @@
+{
+  "name": "graphql-try",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ti-aiuto/graphql-try.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ti-aiuto/graphql-try/issues"
+  },
+  "homepage": "https://github.com/ti-aiuto/graphql-try#readme"
+}
