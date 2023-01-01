@@ -25,12 +25,14 @@ const postRepository = new PostRepository();
 const resolvers = {
   Query: {
     async user(parent, { id }): Promise<User | null> {
+      // TODO: NOT FOUNDの場合
       return userRepository.findUserById(connection, id);
     },
     async posts(parent, { limit, offset }): Promise<Post[]> {
       return postRepository.findPosts(connection, limit, offset);
     },
     async post(parent, { id }): Promise<Post | null> {
+      // TODO: バリデーション
       return postRepository.findPostById(connection, id);
     },
     currentUser(parent, args, { currentUser }: Context): User | null {
@@ -46,6 +48,7 @@ const resolvers = {
   },
   Mutation: {
     publishPost(parent, { content }, { currentUser }: Context): Promise<Post> {
+      // TODO: ここでログイン状態のチェックが要りそう
       return postRepository.create(connection, {
         content,
         authorId: currentUser.id,
