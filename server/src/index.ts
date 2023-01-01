@@ -2,7 +2,7 @@ import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 
 const typeDefs = `#graphql
-type User {
+  type User {
     id: Int!
     name: String!
   }
@@ -17,6 +17,10 @@ type User {
   type Query {
     posts: [Post]
     post(id: Int): Post
+  }
+
+  type Mutation {
+    publishPost(content: String): Post
   }
 `;
 
