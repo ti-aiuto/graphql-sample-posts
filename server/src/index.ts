@@ -19,9 +19,20 @@ const connection = await mysql.createConnection({
 const resolvers = {
   Query: {
     async users(): Promise<User[]> {
-      const [rows] = await connection.query<DbUser[]>('SELECT * FROM `users`');
+      const [rows] = await connection.query<DbUser[]>("SELECT * FROM `users`");
       return rows;
-    }
+    },
+    async user(_, args): Promise<User | null> {
+      const [rows] = await connection.query<DbUser[]>(
+        "SELECT * FROM `users` WHERE id = ?",
+        [args.id]
+      );
+      if (rows.length === 1) {
+        return rows[0];
+      } else {
+        return null;
+      }
+    },
   },
   Mutation: {},
 };
