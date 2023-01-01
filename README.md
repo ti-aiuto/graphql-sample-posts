@@ -8,6 +8,11 @@ GraphQLの練習用に作った簡易ブログ・掲示板もどき
 
  `/server` 内
 
+### 準備
+
+* `.env.sample` を `.env` としてコピーして適宜値を変える
+* TODO: DBのマイグレーション
+
 ### 開発
 
 `npm start`
