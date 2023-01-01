@@ -46,6 +46,23 @@ const resolvers = {
         };
       });
     },
+    async post(_, args): Promise<Post | null> {
+      const [rows] = await connection.query<DbPost[]>(
+        "SELECT * FROM `posts` WHERE  id = ?",
+        [args.id]
+      );
+      if (rows.length === 1) {
+        const row = rows[0];
+        return {
+          id: row.id,
+          authorId: row.author_id,
+          content: row.content,
+          createdAt: row.created_at,
+        };
+      } else {
+        return null;
+      }
+    },
   },
   Post: {
     async author(parent: Post): Promise<User> {
