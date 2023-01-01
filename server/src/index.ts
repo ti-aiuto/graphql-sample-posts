@@ -27,17 +27,17 @@ const resolvers = {
     async users(): Promise<User[]> {
       return userRepository.findUsers(connection);
     },
-    async user(parent, args): Promise<User | null> {
-      return userRepository.findUserById(connection, args.id);
+    async user(parent, { id }): Promise<User | null> {
+      return userRepository.findUserById(connection, id);
     },
     async posts(): Promise<Post[]> {
       return postRepository.findPosts(connection);
     },
-    async post(parent, args): Promise<Post | null> {
-      return postRepository.findPostById(connection, args.id);
+    async post(parent, { id }): Promise<Post | null> {
+      return postRepository.findPostById(connection, id);
     },
-    currentUser(parent, args, context: Context): User | null {
-      return context.currentUser;
+    currentUser(parent, args, { currentUser }: Context): User | null {
+      return currentUser;
     },
   },
   Post: {
@@ -47,7 +47,14 @@ const resolvers = {
       return userRepository.findUserById(connection, parent.authorId);
     },
   },
-  Mutation: {},
+  Mutation: {
+    publishPost(parent, { content }, { currentUser }: Context): Promise<Post> {
+      return postRepository.create(connection, {
+        content,
+        authorId: currentUser.id,
+      });
+    },
+  },
 };
 
 const server = new ApolloServer({
