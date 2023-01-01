@@ -11,7 +11,9 @@ GraphQLの練習用に作った簡易ブログ・掲示板もどき
 ### 準備
 
 * `.env.sample` を `.env` としてコピーして適宜値を変える
-* TODO: DBのマイグレーション
+* TODO: DBのマイグレーションの手順をなんとかする
+    * とりあえずDBのdumpをコミットしとえいた
+    * `mysqldump -u root -p sample_posts --skip-column-statistics`
 
 ### 開発
 
