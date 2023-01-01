@@ -7,9 +7,9 @@ dotenv.config();
 
 import mysql from "mysql2/promise";
 import { User } from "./user.js";
-import { DbUser } from "./db-user.js";
 import { Post } from "./post.js";
-import { DbPost } from "./db-post.js";
+import { UserRepository } from "./user-repository.js";
+import { PostRepository } from "./post-repository.js";
 
 const connection = await mysql.createConnection({
   host: process.env.SAMPLE_POSTS_DATABASE_HOST,
@@ -18,65 +18,29 @@ const connection = await mysql.createConnection({
   database: process.env.SAMPLE_POSTS_DATABASE_DATABASE,
 });
 
+const userRepository = new UserRepository();
+const postRepository = new PostRepository();
+
 const resolvers = {
   Query: {
     async users(): Promise<User[]> {
-      const [rows] = await connection.query<DbUser[]>("SELECT * FROM `users`");
-      return rows;
+      return userRepository.findUsers(connection);
     },
     async user(_, args): Promise<User | null> {
-      const [rows] = await connection.query<DbUser[]>(
-        "SELECT * FROM `users` WHERE id = ?",
-        [args.id]
-      );
-      if (rows.length === 1) {
-        return rows[0];
-      } else {
-        return null;
-      }
+      return userRepository.findUserById(connection, args.id);
     },
     async posts(): Promise<Post[]> {
-      const [rows] = await connection.query<DbPost[]>("SELECT * FROM `posts`");
-      return rows.map((row) => {
-        return {
-          id: row.id,
-          authorId: row.author_id,
-          content: row.content,
-          createdAt: row.created_at,
-        };
-      });
+      return postRepository.findPosts(connection);
     },
     async post(_, args): Promise<Post | null> {
-      const [rows] = await connection.query<DbPost[]>(
-        "SELECT * FROM `posts` WHERE  id = ?",
-        [args.id]
-      );
-      if (rows.length === 1) {
-        const row = rows[0];
-        return {
-          id: row.id,
-          authorId: row.author_id,
-          content: row.content,
-          createdAt: row.created_at,
-        };
-      } else {
-        return null;
-      }
+      return postRepository.findPostById(connection, args.id);
     },
   },
   Post: {
     async author(parent: Post): Promise<User> {
       // ここがn+1になる
       // https://engineering.mercari.com/blog/entry/20210818-mercari-shops-nestjs-graphql-server/#dataloader-for-batch-request
-      const [rows] = await connection.query<DbUser[]>(
-        "SELECT * FROM `users` WHERE id = ?",
-        [parent.authorId]
-      );
-      if (rows.length === 1) {
-        return rows[0];
-      } else {
-        return null;
-      }
+      return userRepository.findUserById(connection, parent.authorId);
     },
   },
   Mutation: {},
