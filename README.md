@@ -2,11 +2,11 @@
 
 GraphQLの練習用に作った簡易ブログ・掲示板もどき
 
-# 構成
 
-## バックエンド
+## バックエンド( `/server` 内)
 
- `/server` 内
+* 話をややこしくしないためにORMを使わずに作ってみる
+* 読み取りだけじゃなくて書き込みの処理も最低限作ってみる
 
 ### 準備
 
@@ -59,12 +59,11 @@ mutation Mutation {
 }
 ```
 
-
 ## フロントエンド
 
 coming soon...
 
-# 参考にしたサイトのメモ
+## 参考にしたサイトのメモ
 
 https://zenn.dev/knaka0209/books/befdda3d27a264/viewer/caa2d8
 https://www.apollographql.com/docs/apollo-server/getting-started
