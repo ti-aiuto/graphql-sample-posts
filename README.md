@@ -9,3 +9,6 @@ https://www.apollographql.com/docs/apollo-server/data/resolvers#the-contextvalue
 https://zenn.dev/eringiv3/books/a85174531fd56a/viewer/9d538f
 https://zenn.dev/eringiv3/books/a85174531fd56a/viewer/953541
 https://suzukalight.com/blog/posts/2019-12-14-graphql-server-authentication
+
+typescript
+https://dev.to/larswaechter/using-mysql-in-nodejs-with-typescript-ida

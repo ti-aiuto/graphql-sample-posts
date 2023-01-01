@@ -8,6 +8,8 @@ dotenv.config();
 import mysql from "mysql2/promise";
 import { User } from "./user.js";
 import { DbUser } from "./db-user.js";
+import { Post } from "./post.js";
+import { DbPost } from "./db-post.js";
 
 const connection = await mysql.createConnection({
   host: process.env.SAMPLE_POSTS_DATABASE_HOST,
@@ -32,6 +34,16 @@ const resolvers = {
       } else {
         return null;
       }
+    },
+    async posts(): Promise<Post[]> {
+      const [rows] = await connection.query<DbPost[]>("SELECT * FROM `posts`");
+      return rows.map((row) => {
+        return {
+          id: row.id,
+          content: row.content,
+          createdAt: row.created_at,
+        };
+      });
     },
   },
   Mutation: {},
