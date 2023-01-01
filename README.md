@@ -18,7 +18,8 @@ GraphQLの練習用に作った簡易ブログ・掲示板もどき
 
 ### 開発
 
-`npm start`
+* `npm start`
+* `http://localhost:4000/`
 
 ### サンプル
 
