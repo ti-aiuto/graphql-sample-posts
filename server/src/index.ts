@@ -66,6 +66,8 @@ const resolvers = {
   },
   Post: {
     async author(parent: Post): Promise<User> {
+      // ここがn+1になる
+      // https://engineering.mercari.com/blog/entry/20210818-mercari-shops-nestjs-graphql-server/#dataloader-for-batch-request
       const [rows] = await connection.query<DbUser[]>(
         "SELECT * FROM `users` WHERE id = ?",
         [parent.authorId]
