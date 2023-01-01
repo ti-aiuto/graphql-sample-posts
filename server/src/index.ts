@@ -10,6 +10,7 @@ import { User } from "./user.js";
 import { Post } from "./post.js";
 import { UserRepository } from "./user-repository.js";
 import { PostRepository } from "./post-repository.js";
+import { Context } from "./context.js";
 
 const connection = await mysql.createConnection({
   host: process.env.SAMPLE_POSTS_DATABASE_HOST,
@@ -26,14 +27,17 @@ const resolvers = {
     async users(): Promise<User[]> {
       return userRepository.findUsers(connection);
     },
-    async user(_, args): Promise<User | null> {
+    async user(parent, args): Promise<User | null> {
       return userRepository.findUserById(connection, args.id);
     },
     async posts(): Promise<Post[]> {
       return postRepository.findPosts(connection);
     },
-    async post(_, args): Promise<Post | null> {
+    async post(parent, args): Promise<Post | null> {
       return postRepository.findPostById(connection, args.id);
+    },
+    currentUser(parent, args, context: Context): User | null {
+      return context.currentUser;
     },
   },
   Post: {
@@ -53,8 +57,10 @@ const server = new ApolloServer({
 
 const { url } = await startStandaloneServer(server, {
   listen: { port: 4000 },
-  async context() {
-    return {};
+  async context(): Promise<Context> {
+    return {
+      currentUser: await userRepository.findUserById(connection, 1), // ダミーユーザにしておく
+    };
   },
 });
 
