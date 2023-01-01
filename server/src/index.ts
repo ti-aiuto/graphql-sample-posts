@@ -40,10 +40,24 @@ const resolvers = {
       return rows.map((row) => {
         return {
           id: row.id,
+          authorId: row.author_id,
           content: row.content,
           createdAt: row.created_at,
         };
       });
+    },
+  },
+  Post: {
+    async author(parent: Post): Promise<User> {
+      const [rows] = await connection.query<DbUser[]>(
+        "SELECT * FROM `users` WHERE id = ?",
+        [parent.authorId]
+      );
+      if (rows.length === 1) {
+        return rows[0];
+      } else {
+        return null;
+      }
     },
   },
   Mutation: {},
