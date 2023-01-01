@@ -42,7 +42,7 @@ const resolvers = {
   },
   Post: {
     async author(parent: Post): Promise<User> {
-      // ここがn+1になる
+      // TODO: ここがn+1になる
       // https://engineering.mercari.com/blog/entry/20210818-mercari-shops-nestjs-graphql-server/#dataloader-for-batch-request
       return userRepository.findUserById(connection, parent.authorId);
     },
@@ -57,9 +57,11 @@ const server = new ApolloServer({
 
 const { url } = await startStandaloneServer(server, {
   listen: { port: 4000 },
-  async context(): Promise<Context> {
+  async context({ req }): Promise<Context> {
+    // TODO: ここでreq.headers['x-token']などでユーザを検索する
+    // とりあえずダミーユーザにしておく
     return {
-      currentUser: await userRepository.findUserById(connection, 1), // ダミーユーザにしておく
+      currentUser: await userRepository.findUserById(connection, 1),
     };
   },
 });
