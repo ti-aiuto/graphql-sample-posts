@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/ti-aiuto/graphql-try/issues"
   },
-  "homepage": "https://github.com/ti-aiuto/graphql-try#readme"
+  "homepage": "https://github.com/ti-aiuto/graphql-try#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "express-graphql": "^0.12.0",
+    "graphql": "^15.8.0"
+  }
 }
