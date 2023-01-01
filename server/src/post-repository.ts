@@ -46,7 +46,7 @@ export class PostRepository {
       id: dbPost.id,
       authorId: dbPost.author_id,
       content: dbPost.content,
-      createdAt: dbPost.created_at,
+      createdAt: dbPost.created_at.toISOString(),
     };
   }
 }

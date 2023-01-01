@@ -44,6 +44,7 @@ query {
   posts(limit: 2, offset: 2) {
     id
     content
+    createdAt
     author {
       name
     }
