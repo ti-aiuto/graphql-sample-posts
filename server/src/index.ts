@@ -24,14 +24,11 @@ const postRepository = new PostRepository();
 
 const resolvers = {
   Query: {
-    async users(): Promise<User[]> {
-      return userRepository.findUsers(connection);
-    },
     async user(parent, { id }): Promise<User | null> {
       return userRepository.findUserById(connection, id);
     },
-    async posts(): Promise<Post[]> {
-      return postRepository.findPosts(connection);
+    async posts(parent, { limit, offset }): Promise<Post[]> {
+      return postRepository.findPosts(connection, limit, offset);
     },
     async post(parent, { id }): Promise<Post | null> {
       return postRepository.findPostById(connection, id);

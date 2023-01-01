@@ -3,8 +3,15 @@ import { DbPost } from "./db-post.js";
 import { Post } from "./post.js";
 
 export class PostRepository {
-  async findPosts(connection: Connection): Promise<Post[]> {
-    const [rows] = await connection.query<DbPost[]>("SELECT * FROM `posts` ORDER BY id;");
+  async findPosts(
+    connection: Connection,
+    limit?: number,
+    offset?: number
+  ): Promise<Post[]> {
+    const [rows] = await connection.query<DbPost[]>(
+      "SELECT * FROM `posts` ORDER BY id DESC LIMIT ? OFFSET ?;",
+      [limit || 100, offset || 0]
+    );
     return rows.map((row) => this.dbPostToPost(row));
   }
 
