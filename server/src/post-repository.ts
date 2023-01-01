@@ -4,7 +4,7 @@ import { Post } from "./post.js";
 
 export class PostRepository {
   async findPosts(connection: Connection): Promise<Post[]> {
-    const [rows] = await connection.query<DbPost[]>("SELECT * FROM `posts`");
+    const [rows] = await connection.query<DbPost[]>("SELECT * FROM `posts` ORDER BY id;");
     return rows.map((row) => this.dbPostToPost(row));
   }
 

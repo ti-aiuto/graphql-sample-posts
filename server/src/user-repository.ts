@@ -4,7 +4,7 @@ import { User } from "./user.js";
 
 export class UserRepository {
   async findUsers(connection: Connection): Promise<User[]> {
-    const [rows] = await connection.query<DbUser[]>("SELECT * FROM `users`");
+    const [rows] = await connection.query<DbUser[]>("SELECT * FROM `users` ORDER BY id;");
     return rows;
   }
 
