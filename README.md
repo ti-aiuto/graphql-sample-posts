@@ -12,6 +12,46 @@ GraphQLの練習用に作った簡易ブログ・掲示板もどき
 
 `npm start`
 
+### サンプル
+
+```
+query {
+  currentUser {
+    name
+  }
+}
+
+query {
+  posts {
+    id
+    content
+    author {
+      name
+    }
+  }
+}
+
+query {
+  posts(limit: 2, offset: 2) {
+    id
+    content
+    author {
+      name
+    }
+  }
+}
+
+mutation Mutation {
+  publishPost(content: "新しい投稿") {
+    id
+    author {
+      name
+    }
+  }
+}
+```
+
+
 ## フロントエンド
 
 coming soon...
