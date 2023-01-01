@@ -1,12 +1,10 @@
-# sample-posts
+# graphql-sample-posts
 
 GraphQLの練習用に作った簡易ブログ・掲示板もどき
 
 # 構成
 
 ## バックエンド
-
-### ディレクトリ
 
  `/server` 内
 
