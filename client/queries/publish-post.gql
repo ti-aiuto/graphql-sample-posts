@@ -1,0 +1,5 @@
+mutation ($content: String!) {
+  publishPost(content: $content) {
+    id
+  }
+}

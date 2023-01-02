@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <v-app>
-      <v-dialog v-model="dialog" persistent max-width="600px">
+      <v-dialog v-model="dialog" max-width="600px">
         <template v-slot:activator="{ on, attrs }">
           <v-btn color="primary" dark v-bind="attrs" v-on="on">
             新規投稿
@@ -15,7 +15,11 @@
             <v-container>
               <v-row>
                 <v-col cols="12">
-                  <v-textarea label="本文を入力..." required />
+                  <v-textarea
+                    label="本文を入力..."
+                    required
+                    v-model="editingContent"
+                  />
                 </v-col>
               </v-row>
             </v-container>
@@ -23,9 +27,6 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="dialog = false">
-              Close
-            </v-btn>
             <v-btn color="blue darken-1" text @click="dialog = false">
               Save
             </v-btn>
@@ -56,17 +57,44 @@
 </template>
 
 <script lang="ts">
-import listQuery from "../queries/list.gql";
+import Vue from "vue";
+import listPostsGql from "../queries/list.gql";
+import publishPostGql from "../queries/publish-post.gql";
 
-export default {
+export default Vue.extend({
   data() {
-    return { dialog: false };
+    return { dialog: false, editingContent: null };
+  },
+  methods: {
+    openPostFormDialog() {
+      this.dialog = true;
+      this.editingContent = null;
+    },
+    async submitPostForm() {
+      const { error } = await this.$apollo.mutate({
+        mutation: publishPostGql,
+        variables: {
+          content: "hogehoge",
+        },
+        refetchQueries: [
+          {
+            query: listPostsGql,
+          },
+        ],
+      });
+
+      if (error) {
+        console.error(error);
+      }
+
+      this.dialog = false;
+    },
   },
   apollo: {
     posts: {
       prefetch: true,
-      query: listQuery,
+      query: listPostsGql,
     },
   },
-};
+});
 </script>

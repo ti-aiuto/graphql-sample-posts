@@ -1,4 +1,4 @@
-query List {
+query {
   posts {
     content
     createdAt
