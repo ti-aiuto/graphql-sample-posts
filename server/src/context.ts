@@ -1,5 +1,5 @@
-import { User } from "./user.js";
+import { UserModel } from "./user-model";
 
 export interface Context {
-  currentUser: User | null;
+  currentUser: UserModel | null;
 }

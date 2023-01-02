@@ -5,46 +5,65 @@ import { typeDefs } from "./schema.js";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-import mysql from "mysql2/promise";
-import { User } from "./user.js";
-import { Post } from "./post.js";
-import { UserRepository } from "./user-repository.js";
-import { PostRepository } from "./post-repository.js";
 import { Context } from "./context.js";
 
-const connection = await mysql.createConnection({
-  host: process.env.SAMPLE_POSTS_DATABASE_HOST,
-  user: process.env.SAMPLE_POSTS_DATABASE_USERNAME,
-  password: process.env.SAMPLE_POSTS_DATABASE_USERNAME,
-  database: process.env.SAMPLE_POSTS_DATABASE_DATABASE,
-});
+import { Post, PrismaClient, User } from "@prisma/client";
+import { PostModel } from "./post-model.js";
+import { UserModel } from "./user-model.js";
+const prisma = new PrismaClient();
 
-const userRepository = new UserRepository();
-const postRepository = new PostRepository();
+function prismaPostToPostModel(prismaPost: Post): PostModel {
+  return {
+    id: prismaPost.id,
+    authorId: prismaPost.id,
+    content: prismaPost.content,
+    createdAt: prismaPost.createdAt.toISOString(),
+  };
+}
+
+function prismaUserToUserModel(prismaUser: User): UserModel {
+  return { id: prismaUser.id, name: prismaUser.name };
+}
 
 const resolvers = {
   Query: {
-    async posts(parent, { limit, offset }): Promise<Post[]> {
-      return postRepository.findPosts(connection, limit, offset);
+    async posts(parent, { limit, offset }): Promise<PostModel[]> {
+      const prismaPosts = await prisma.post.findMany({
+        orderBy: { id: "desc" },
+        take: limit ?? 100,
+        skip: offset ?? 0,
+      });
+      return prismaPosts.map(prismaPostToPostModel);
     },
-    currentUser(parent, args, { currentUser }: Context): User | null {
+    currentUser(parent, args, { currentUser }: Context): UserModel | null {
       return currentUser;
     },
   },
   Post: {
-    async author(parent: Post): Promise<User> {
-      // TODO: ここがn+1になる
+    async author(parent: Post): Promise<UserModel> {
+      // TODO: 普通に作るとここがn+1になるがprismaのfindUniqueなら回避できるとかなんとか
       // https://engineering.mercari.com/blog/entry/20210818-mercari-shops-nestjs-graphql-server/#dataloader-for-batch-request
-      return userRepository.findUserById(connection, parent.authorId);
+      const prismaUser = await prisma.user.findUnique({
+        where: { id: parent.authorId },
+      });
+      return prismaUserToUserModel(prismaUser);
     },
   },
   Mutation: {
-    publishPost(parent, { content }, { currentUser }: Context): Promise<Post> {
+    async publishPost(
+      parent,
+      { content },
+      { currentUser }: Context
+    ): Promise<PostModel> {
       // TODO: ここでログイン状態のチェックが要りそう
-      return postRepository.create(connection, {
-        content,
-        authorId: currentUser.id,
+      const prismaPost = await prisma.post.create({
+        data: {
+          content,
+          authorId: currentUser.id,
+          createdAt: new Date(),
+        },
       });
+      return prismaPostToPostModel(prismaPost);
     },
   },
 };
@@ -59,8 +78,9 @@ const { url } = await startStandaloneServer(server, {
   async context({ req }): Promise<Context> {
     // TODO: ここでreq.headers['x-token']などでユーザを検索する
     // とりあえずダミーユーザにしておく
+    const prismaUser = await prisma.user.findUnique({ where: { id: 1 } });
     return {
-      currentUser: await userRepository.findUserById(connection, 1),
+      currentUser: prismaUserToUserModel(prismaUser),
     };
   },
 });
