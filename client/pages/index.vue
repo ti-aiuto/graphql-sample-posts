@@ -2,12 +2,16 @@
   <div class="container">
     <v-app>
       <v-container>
+        <v-btn
+          color="primary"
+          dark
+          width="100%"
+          @click.stop="openPostFormDialog"
+        >
+          新規投稿
+        </v-btn>
+
         <v-dialog v-model="dialog" max-width="500px">
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn color="primary" dark v-bind="attrs" v-on="on" width="100%">
-              新規投稿
-            </v-btn>
-          </template>
           <form @submit.prevent="submitPostForm">
             <v-card>
               <v-card-title>
