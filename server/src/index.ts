@@ -15,7 +15,7 @@ const prisma = new PrismaClient();
 function prismaPostToPostModel(prismaPost: Post): PostModel {
   return {
     id: prismaPost.id,
-    authorId: prismaPost.id,
+    authorId: prismaPost.authorId,
     content: prismaPost.content,
     createdAt: prismaPost.createdAt.toISOString(),
   };

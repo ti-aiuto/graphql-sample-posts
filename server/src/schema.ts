@@ -6,6 +6,7 @@ export const typeDefs = `#graphql
 
   type Post {
     id: Int!
+    authorId: Int!
     author: User!
     content: String!
     createdAt: String!
