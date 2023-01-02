@@ -1,0 +1,10 @@
+query List {
+  posts {
+    content
+    createdAt
+    authorId
+    author {
+      name
+    }
+  }
+}
