@@ -95,3 +95,4 @@ prisma
 * https://www.apollographql.com/docs/react/get-started
 * https://www.npmjs.com/package/@nuxtjs/apollo
 * https://takumon.com/nuxt-apollo-with-graphpack
+* https://vuetifyjs.com/ja/getting-started/installation/#nuxt-3067306e30a430f330b930c830fc30eb
