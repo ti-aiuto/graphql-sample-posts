@@ -34,9 +34,18 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    '@nuxtjs/apollo',
   ],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-  }
+  },
+
+  apollo: {
+    clientConfigs: {
+      default: {
+        httpEndpoint: 'http://localhost:4000/',
+      }
+    }
+  },
 }
