@@ -83,7 +83,13 @@ typescript
 
 * https://dev.to/larswaechter/using-mysql-in-nodejs-with-typescript-ida
 
+prisma
+
+* https://www.prisma.io/docs/getting-started
+* https://www.prisma.io/docs/reference/api-reference/prisma-client-reference
+
 フロントエンド
 
 * https://beamaker.jp/article/11
 * https://zenn.dev/kimkiyong/articles/b92b1029093741
+* https://www.apollographql.com/docs/react/get-started
