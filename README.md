@@ -82,3 +82,8 @@ mutation
 typescript
 
 * https://dev.to/larswaechter/using-mysql-in-nodejs-with-typescript-ida
+
+フロントエンド
+
+* https://beamaker.jp/article/11
+* https://zenn.dev/kimkiyong/articles/b92b1029093741
