@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "compile": "tsc",
-    "start": "npm run compile && node ./dist/index.js"
+    "start": "npm run compile && node ./dist/index.js",
+    "seed": "npm run compile && node ./dist/seed.js"
   },
   "repository": {
     "type": "git",
