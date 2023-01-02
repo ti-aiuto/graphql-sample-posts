@@ -22,15 +22,23 @@
         >
           GitHub
         </a>
+        {{ posts }}
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import listQuery from '../queries/list.gql';
 
-export default Vue.extend({})
+export default {  
+  apollo: {
+    posts: {
+      prefetch: true,
+      query: listQuery
+    }
+  },
+}
 </script>
 
 <style>
