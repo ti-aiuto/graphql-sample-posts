@@ -7,31 +7,31 @@
             新規投稿
           </v-btn>
         </template>
-        <v-card>
-          <v-card-title>
-            <span class="text-h5">新規投稿</span>
-          </v-card-title>
-          <v-card-text>
-            <v-container>
-              <v-row>
-                <v-col cols="12">
-                  <v-textarea
-                    label="本文を入力..."
-                    required
-                    v-model="editingContent"
-                  />
-                </v-col>
-              </v-row>
-            </v-container>
-            <small>*indicates required field</small>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="dialog = false">
-              Save
-            </v-btn>
-          </v-card-actions>
-        </v-card>
+        <form @submit.prevent="submitPostForm">
+          <v-card>
+            <v-card-title>
+              <span class="text-h5">新規投稿</span>
+            </v-card-title>
+            <v-card-text>
+              <v-container>
+                <v-row>
+                  <v-col cols="12">
+                    <v-textarea
+                      label="本文を入力..."
+                      required
+                      v-model="editingContent"
+                    />
+                  </v-col>
+                </v-row>
+              </v-container>
+              <small>*indicates required field</small>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue darken-1" text type="submit"> Save </v-btn>
+            </v-card-actions>
+          </v-card>
+        </form>
       </v-dialog>
 
       <div>
@@ -71,23 +71,24 @@ export default Vue.extend({
       this.editingContent = null;
     },
     async submitPostForm() {
-      const { error } = await this.$apollo.mutate({
-        mutation: publishPostGql,
-        variables: {
-          content: "hogehoge",
-        },
-        refetchQueries: [
-          {
-            query: listPostsGql,
+      this.$apollo
+        .mutate({
+          mutation: publishPostGql,
+          variables: {
+            content: this.editingContent,
           },
-        ],
-      });
-
-      if (error) {
-        console.error(error);
-      }
-
-      this.dialog = false;
+          refetchQueries: [
+            {
+              query: listPostsGql,
+            },
+          ],
+        })
+        .catch((error) => {
+          console.error(error);
+        })
+        .finally(() => {
+          this.dialog = false;
+        });
     },
   },
   apollo: {
