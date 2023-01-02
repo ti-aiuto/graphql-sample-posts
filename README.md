@@ -5,16 +5,16 @@ GraphQLの練習用に作った簡易ブログ・掲示板もどき
 
 ## バックエンド( `/server` 内)
 
-* 話をややこしくしないためにORMを使わずに作ってみる
+* ~話をややこしくしないためにORMを使わずに作ってみる~
+    * prismaを使ったほうがはるかにすっきりするのでprismaを使うことにした
 * 読み取りだけじゃなくて書き込みの処理も最低限作ってみる
 
 ### 準備
 
 * `.env.sample` を `.env` としてコピーして適宜値を変える
-* TODO: DBのマイグレーションの手順をなんとかする
-    * とりあえずDBのdumpをコミットしておいた
-    * `source /.../graphql-sample-posts/server/dump.sql`
-    * `mysqldump -u root -p sample_posts --skip-column-statistics`
+* DBのセットアップ
+    * `npx prisma migrate dev`
+    * `npm seed`
 
 ### 開発
 
