@@ -93,3 +93,5 @@ prisma
 * https://beamaker.jp/article/11
 * https://zenn.dev/kimkiyong/articles/b92b1029093741
 * https://www.apollographql.com/docs/react/get-started
+* https://www.npmjs.com/package/@nuxtjs/apollo
+* https://takumon.com/nuxt-apollo-with-graphpack
