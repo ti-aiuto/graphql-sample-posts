@@ -24,11 +24,10 @@
                   </v-col>
                 </v-row>
               </v-container>
-              <small>*indicates required field</small>
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text type="submit"> Save </v-btn>
+              <v-btn color="blue darken-1" text type="submit">投稿</v-btn>
             </v-card-actions>
           </v-card>
         </form>
@@ -44,7 +43,11 @@
           >
             <v-card>
               <v-card-text>
-                <div class="text--primary mb-2" v-text="post.content" />
+                <div
+                  class="text--primary mb-2"
+                  v-text="post.content"
+                  style="white-space: pre"
+                />
 
                 <div v-text="post.createdAt" />
               </v-card-text>
